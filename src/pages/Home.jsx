@@ -1,9 +1,10 @@
+import { AppHeader } from "../cmps/AppHeader.jsx";
 import { ToyIndex } from "./ToyIndex.jsx";
 
 export function Home(){
     return (
         <section className="home">
-            <h1>MisterToy</h1>
+            <AppHeader />
             <ToyIndex />
         </section>
     )
