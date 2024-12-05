@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react"
-import { toyService } from "../services/toy-service.js"
+import { useEffect } from "react"
 import { ToyList } from "../cmps/ToyList.jsx"
+import { useSelector } from "react-redux"
+import { loadToys } from "../store/actions/toy.actions.js"
 
 export function ToyIndex(){
 
-    const [toys, setToys] = useState(null)
+    const toys = useSelector(storeState => storeState.toyModule.toys)
 
     useEffect(() => {
-        toyService.query()
-            .then(setToys)
+        loadToys()
     }, [])
 
     function onRemoveToy(toyId){
