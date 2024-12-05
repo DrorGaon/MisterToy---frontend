@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { useSelector } from "react-redux"
-import { loadToys } from "../store/actions/toy.actions.js"
+import { loadToys, removeToy } from "../store/actions/toy.actions.js"
 
 export function ToyIndex(){
 
@@ -12,7 +12,7 @@ export function ToyIndex(){
     }, [])
 
     function onRemoveToy(toyId){
-        console.log(toyId)
+        removeToy(toyId)
     }
 
     if (!toys) return '...loading'
