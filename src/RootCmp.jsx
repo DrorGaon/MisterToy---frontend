@@ -8,7 +8,7 @@ export function RootCmp(){
 
     return (
         <Router>
-            <section className="app">
+            <section className="app main-layout">
                 <AppHeader />
                 <main>
                     <Routes>
