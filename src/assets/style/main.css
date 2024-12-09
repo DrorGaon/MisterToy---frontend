@@ -6,6 +6,7 @@
 /* cmps */
 @import "cmps/AppHeader.css";
 @import "cmps/ToyIndex.css";
+@import "cmps/UserMsg.css";
 
 /* setup */
 @import "setup/vars.css";

@@ -1,11 +1,10 @@
 import { NavLink } from "react-router-dom";
-
+import { UserMsg } from "./UserMsg";
 
 export function AppHeader(){
 
-
     return (
-        <section className="app-header main-layout full">
+        <header className="app-header main-layout full">
             <h1>Mister Toy</h1>
 
             <nav>
@@ -13,6 +12,7 @@ export function AppHeader(){
                 <NavLink to="/about">About</NavLink>
                 <NavLink to="/toys">Catalog</NavLink>
             </nav>
-        </section>
+            <UserMsg />
+        </header>
     )
 }
