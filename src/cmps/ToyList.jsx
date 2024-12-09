@@ -12,6 +12,7 @@ export function ToyList({ toys, onRemoveToy }) {
                     <ToyPreview toy={toy} onToggleToy={()=>onToggleToy(toy)} />
                     <section>
                         <button onClick={() => onRemoveToy(toy._id)}>Remove</button>
+                        <button onClick={() => navigate(`/toys/${toy._id}`)}>Details</button>
                         <button onClick={() => navigate(`/toys/edit/${toy._id}`)}>Edit</button>
                     </section>
                 </li>
