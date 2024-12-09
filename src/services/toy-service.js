@@ -16,7 +16,17 @@ export const toyService = {
 
 function query(filterBy = {}) {
     return storageService.query(TOY_KEY)
-        .then(toys => {return toys})
+        .then(toys => {
+            if(filterBy.name){
+                const regExp = new RegExp(filterBy.name, 'i')
+                toys = toys.filter(toy => regExp.test(toy.name))
+            }
+            if(filterBy.price){
+                toys = toys.filter(toy => toy.price >= filterBy.price)
+            }
+            return toys
+        }
+        )
 }
 
 function get(toyId) {
