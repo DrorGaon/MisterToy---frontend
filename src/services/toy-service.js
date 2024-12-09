@@ -39,7 +39,7 @@ function save(toy) {
     }
 }
 
-function getEmptyToy(name = '', price = 5) {
+function getEmptyToy(name = '', price = 0) {
     return { name, price, inStock: true, labels: [], createdAt: Date.now() }
 }
 
