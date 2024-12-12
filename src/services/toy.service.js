@@ -1,7 +1,9 @@
 import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
+import { httpService } from './http.service.js'
 
 const TOY_KEY = 'toy'
+const BASE_URL = 'toy/'
 _createToys()
 
 export const toyService = {
@@ -15,37 +17,22 @@ export const toyService = {
 }
 
 function query(filterBy = {}) {
-    return storageService.query(TOY_KEY)
-        .then(toys => {
-            if(filterBy.name){
-                const regExp = new RegExp(filterBy.name, 'i')
-                toys = toys.filter(toy => regExp.test(toy.name))
-            }
-            if(filterBy.price){
-                toys = toys.filter(toy => toy.price >= filterBy.price)
-            }
-            return toys
-        }
-        )
+    return httpService.get(BASE_URL, filterBy)
 }
 
 function get(toyId) {
-    return storageService.get(TOY_KEY, toyId)
-        .then(toy => {
-            toy = _setNextPrevToyId(toy)
-            return toy
-        })
+    return httpService.get(BASE_URL + toyId)
 }
 
 function remove(toyId) {
-    return storageService.remove(TOY_KEY, toyId)
+    return httpService.delete(BASE_URL + toyId)
 }
 
 function save(toy) {
     if (toy._id) {
-        return storageService.put(TOY_KEY, toy)
+        return httpService.put(BASE_URL + toy._id, toy)
     } else {
-        return storageService.post(TOY_KEY, toy)
+        return httpService.post(BASE_URL, toy)
     }
 }
 
