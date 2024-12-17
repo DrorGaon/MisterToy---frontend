@@ -14,15 +14,16 @@ export function ToyDetails() {
         loadToy()
     }, [params.toyId])
 
-
-    function loadToy() {
+    async function loadToy() {
         toyService.get(params.toyId)
-            .then(setToy)
-            .catch(err => {
-                console.error('err:', err)
-                showErrorMsg('Problem loading toy')
-                navigate('/toys')
-            })
+        try{
+            const toy = await toyService.get(params.toyId)
+            setToy(toy)
+        } catch (err){
+            console.error('err:', err)
+            showErrorMsg('Problem loading toy')
+            navigate('/toys')
+        }
     }
 
     function onBack() {

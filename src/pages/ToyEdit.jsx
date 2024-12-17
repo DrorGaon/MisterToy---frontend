@@ -14,13 +14,15 @@ export function ToyEdit() {
         if (toyId) loadToy()
     }, [])
 
-    function loadToy() {
-        toyService.get(toyId)
-            .then(toy => setToyToEdit(toy))
-            .catch(err => {
-                console.log('Problem editing toy', err)
-                navigate('/toys')
-            })
+    async function loadToy() {
+        try{
+            const toy = await toyService.get(toyId)
+            setToyToEdit(toy)
+        } catch (err){
+            console.error('err:', err)
+            showErrorMsg('Problem editing toy')
+            navigate('/toys')
+        }
     }
 
     function handleChange({ target }) {
@@ -44,18 +46,18 @@ export function ToyEdit() {
         setToyToEdit(prevToyToEdit => ({ ...prevToyToEdit, [field]: value }))
     }
 
-    function onSaveToy(ev) {
+    async function onSaveToy(ev) {
         ev.preventDefault()
-        saveToy(toyToEdit)
-            .then(() => {
-                console.log('toy added')
-                showSuccessMsg(`Toy saved successfully`)
-            })
-            .catch(err => {
-                console.log('Problem saving toy', err)
-                showErrorMsg('Problem saving toy')
-            })
-            .finally(() => navigate('/toys'))
+        try {
+            await saveToy(toyToEdit)                
+            console.log('toy added')
+            showSuccessMsg(`Toy saved successfully`)
+        } catch (err) {
+            console.log('Problem saving toy', err)
+            showErrorMsg('Problem saving toy')
+        } finally {
+            navigate('/toys')
+        }
     }
 
     return (

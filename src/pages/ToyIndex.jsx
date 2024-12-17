@@ -15,21 +15,23 @@ export function ToyIndex(){
     const dispatch = useDispatch()
 
     useEffect(() => {
-        loadToys(filterBy)
-            .catch((err) => {
-                showErrorMsg('Problem getting toys')
-                console.log('Problem getting toys', err)
-            })
+        try{
+            loadToys(filterBy)
+        } catch (err) {
+            showErrorMsg('Problem getting toys')
+            console.log('Problem getting toys', err)
+        }
     }, [filterBy])
 
-    function onRemoveToy(toyId){
-        removeToy(toyId)
-            .then(() => showSuccessMsg('Toy removed successfully'))
-            .catch((err) => {
-                showErrorMsg('Problem removing toy')
-                console.log('Problem removing toy', err)
-            })
+    async function onRemoveToy(toyId){
+        try {
+            await removeToy(toyId)
+            showSuccessMsg('Toy removed successfully')
+        } catch (err) {
+            console.log('Problem removing toy', err)
+            showErrorMsg('Problem removing toy')
         }
+    }
     
     function onSetFilterBy(filterBy){
         dispatch({ type: SET_FILTER_BY, filterBy})

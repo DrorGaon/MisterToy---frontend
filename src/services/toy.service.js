@@ -1,8 +1,5 @@
-import { utilService } from './util.service.js'
-import { storageService } from './async-storage.service.js'
 import { httpService } from './http.service.js'
 
-const TOY_KEY = 'toy'
 const BASE_URL = 'toy/'
 
 export const toyService = {
@@ -19,9 +16,14 @@ function query(filterBy = {}) {
     return httpService.get(BASE_URL, filterBy)
 }
 
-function get(toyId) {
-    return httpService.get(BASE_URL + toyId)
-        .then(toy => _setNextPrevToyId(toy))
+async function get(toyId) {
+    try {
+        const toy = await httpService.get(BASE_URL + toyId)
+        return _setNextPrevToyId(toy)
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
 }
 
 function remove(toyId) {
@@ -53,13 +55,17 @@ function getFilterFromSearchParams(searchParams) {
     return filterBy
 }
 
-function _setNextPrevToyId(toy) {
-    return httpService.get(BASE_URL).then((toys) => {
+async function _setNextPrevToyId(toy) {
+    try {
+        const toys = await httpService.get(BASE_URL)
         const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
         const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
         const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
         toy.nextToyId = nextToy._id
         toy.prevToyId = prevToy._id
         return toy
-    })
+    } catch (err){
+        console.log(err)
+        throw err
+    }
 }
